@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test {
+            border: 1px solid red
+        }
+    </style>
+    <title>Vue GraphQL APP</title>
+</head>
+
+<body>
+    <main class="d-flex flex-column align-items-center" id="app">
+
+        <h1 class="p-4">天气查询</h1>
+
+        <div class="p-4">
+            <form class="d-flex" v-on:submit.prevent="search">
+                <input class="form-control" type="text" placeholder="请输入城市名称" v-model="query">
+                <button class="btn btn-primary ml-2" type="button" @click="search">{{message}}</button>
+            </form>
+        </div>
+
+        <div class="p-4 d-flex flex-wrap" v-if="weather.length === undefined">
+            <div>
+                <h5>今日天气</h5>
+                <h5>实时温度: {{ weather.realtime.weather.temperature }} &#176;</h5>
+                <h5>天气状况: {{ weather.realtime.weather.info }}</h5>
+                <h5>空气质量：{{ weather.pm25.pm25.quality }}</h5>
+                <h5>建议：{{ weather.pm25.pm25.des }}</h5>
+            </div>
+
+            <div>
+                <h5>未来天气趋势</h5>
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="week in weather.weather">
+                        <h5>温度:{{week.info.day[0]}}~{{week.info.day[2]}} &#176;</h5>
+                        <h5>状况：{{week.info.day[1]}}</h5>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div v-else>
+            <h2>未查到该城市天气信息</h2>
+        </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
